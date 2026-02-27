@@ -31,6 +31,7 @@ public class SelectionManager
     public void Select(SelectableUnit unit)
     {
         SelectedUnits.Add(unit);
+        unit.OnSelected();
     }
 
     /// <summary>
@@ -39,11 +40,27 @@ public class SelectionManager
     /// <param name="unit"></param>
     public void Deselect(SelectableUnit unit)
     {
+        unit.OnDeselected();
         SelectedUnits.Remove(unit);
     }
 
     public void DeselectAll()
     {
+        
+        foreach (SelectableUnit unit in SelectedUnits)
+        {
+            unit.OnDeselected();
+        }
         SelectedUnits.Clear();
+    }
+
+    /// <summary>
+    /// Checks whether a unit is selected or not
+    /// </summary>
+    /// <param name="unit">unit to check</param>
+    /// <returns>true if it's selected, false otherwise</returns>
+    public bool IsSelected(SelectableUnit unit)
+    {
+       return SelectedUnits.Contains(unit);
     }
 }
