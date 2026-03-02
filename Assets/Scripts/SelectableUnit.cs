@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using Modules.Rendering.Outline;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
@@ -10,6 +11,9 @@ public class SelectableUnit : MonoBehaviour
     private NavMeshAgent _agent;
     [SerializeField]
     private SpriteRenderer _selectionSprite;
+
+    [SerializeField]
+    private OutlineComponent _outlineComponent;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -22,7 +26,7 @@ public class SelectableUnit : MonoBehaviour
         
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
         {
-            Debug.Log(hit.position);
+            
             transform.position = hit.position;
             _agent.enabled = true;
         }
@@ -30,6 +34,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void MoveTo(Vector3 position)
     {
+        Debug.Log(gameObject.name + " going to " + position);
         _agent.SetDestination(position);   
     }
 
@@ -39,6 +44,7 @@ public class SelectableUnit : MonoBehaviour
     public void OnSelected()
     {
         _selectionSprite.gameObject.SetActive(true);
+        _outlineComponent.enabled = true;
     }
 
     /// <summary>
@@ -47,5 +53,6 @@ public class SelectableUnit : MonoBehaviour
     public void OnDeselected()
     {
         _selectionSprite.gameObject.SetActive(false);
+        _outlineComponent.enabled = false;
     }
 }

@@ -29,6 +29,7 @@ public class PlayerInput : MonoBehaviour
     {
         HandleSelectionInput();
         HandleMovementInput();
+        Debug.Log(_mouseDownTime);
     }
 
     private void HandleMovementInput()
