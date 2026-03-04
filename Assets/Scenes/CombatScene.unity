@@ -933,6 +933,7 @@ MonoBehaviour:
   _minZoom: 2
   _maxZoom: 40
   _zoomSmoothness: 4
+  _rotationSpeed: 40
 --- !u!1 &1361220689
 GameObject:
   m_ObjectHideFlags: 0

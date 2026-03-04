@@ -43,4 +43,32 @@ public class HexCoordinates
     {
         return this.X + "\n" + this.Y + "\n" + this.Z;
     }
+
+    /// <summary>
+    /// Returns the cell from the world position
+    /// </summary>
+    /// <param name="position">world position</param>
+    /// <returns>hex coordinates of the corresponding cell</returns>
+    public static HexCoordinates FromPosition(Vector3 position)
+    {
+        //divide the position from the length of the hexagon to retrieve the offset
+        float x = position.x / (HexMetrics.InnerRadius / 2);
+        float y = -x;
+
+        //since the grid is shifted we need to correct the coordinates every 2 rows
+        float offset = position.z / (HexMetrics.OuterRadius * 3f);
+        x -= offset;
+        y -= offset;
+
+        //we round to get the integer coordinate number
+        int iX = Mathf.RoundToInt(x);
+        int iY = Mathf.RoundToInt(y);
+        //retrieve Z based on the two other coordinates
+        int iZ = Mathf.RoundToInt(-x -y);
+        if (iX + iY + iZ != 0)
+        {
+            Debug.LogWarning("Rounding error!");
+        }
+        return new HexCoordinates(iX, iZ);
+    }
 }

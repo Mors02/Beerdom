@@ -78,4 +78,39 @@ public class HexGrid : MonoBehaviour
     {
         _mesh.Triangulate(_cells);
     }
+
+    private void Update()
+    {   
+        //on click do something
+        if (Input.GetMouseButton(0))
+        {
+            HandleInput();
+        }
+    }
+
+    /// <summary>
+    /// Handle the click input on the mesh
+    /// </summary>
+    private void HandleInput()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(inputRay, out RaycastHit hit))
+        {
+            TouchCell(hit.point);
+        }
+    }
+
+    /// <summary>
+    /// Retrieves the clicked cell from the click position and runs a function
+    /// </summary>
+    /// <param name="position">position of the click</param>
+    private void TouchCell(Vector3 position)
+    {   
+        //transform global position to local to retrieve the corresponding cell
+        position = transform.InverseTransformPoint(position);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        Debug.Log("touched at " + coordinates.ToString());
+
+
+    }
 }
